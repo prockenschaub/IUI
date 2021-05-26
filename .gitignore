@@ -1,0 +1,11 @@
+packrat/lib*/
+.Rproj.user
+*.rproj
+*.zip
+*.sav
+*.csv
+*.xlsx
+*.xls
+*.rds
+*.docx
+*.Rmd
