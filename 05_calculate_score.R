@@ -20,7 +20,7 @@ source(glue("{.dir_src}/modelling_helpers.R"))
 library(mice)
 
 imp <- read_rds(glue("{.dir_der}/imp.rds"))
-fits <- read_rds(glue("{.dir_res}/fits.rds"))
+fits <- read_rds(glue("{.dir_res}/fits_incr.rds"))
 
 
 #' Calculate the curve of cumulative probability of pregnancy
@@ -68,7 +68,7 @@ g_score <- score %>%
     scale_colour_viridis_d(end = 0.8, direction = -1) + 
     coord_cartesian(ylim = c(0, 1), expand = FALSE) + 
     labs(
-      x = "\nStimulation cycles",
+      x = "\nIUI cycles",
       y = "Cumulative probability of pregnancy\n", 
       colour = "Score"
     ) +
@@ -78,7 +78,7 @@ g_score <- score %>%
     )
 
 g_score
-ggsave("score_curves.png", width = 14, height = 14, dpi = 600, units = "cm")
+ggsave("score_curves_small.png", width = 14, height = 10, dpi = 300, units = "cm")
 
 
 #+ exact-probs
@@ -86,7 +86,8 @@ score_in_cohort <- complete(imp, "all") %>%
   reduce(bind_rows) %>% 
   mutate(
     score = factor(
-      0 + 2 * (amh >= 1) + 
+      0 + 1 * (amh >= 1) + 
+        1 * (age < 35) + 
         1 * (sperm >= 5) + 1 * (sperm >= 15) + 
         1 * map_lgl(diagnosis, ~ . %in% c("anovulatory", "no_known_female_inf")),
       5:0

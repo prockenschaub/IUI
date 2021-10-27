@@ -1,11 +1,18 @@
+# Only keep package list, not the actual package files
 packrat/lib*/
-.Rproj.user
-*.rproj
-*.zip
-*.sav
+packrat/src
+packrat/src/*
+
+# Remove data files 
+*.rds
 *.csv
-*.xlsx
-*.xls
+*.sav
 *.rds
 *.docx
 *.Rmd
+
+# Other files that don't need tracking
+*.DS_Store
+Rhistory
+tmp
+tmp/*

@@ -38,16 +38,17 @@ base <- y ~ timeInt
 
 if (mode == "simple") {
   formula1 <- base %>% 
-    update.formula(~ . + I(amh < 1) + I(sperm >= 5 & sperm < 15) + I(sperm < 5))
-  formula2 <- formula1 %>% 
-    update.formula(
-      ~ . + I(!diagnosis %in% c("anovulatory", "no_known_female_inf"))
+    update.formula(~ . + I(amh < 1) + 
+                     I(sperm >= 5 & sperm < 15) + I(sperm < 5) + 
+                     I(!diagnosis %in% c("anovulatory", "no_known_female_inf"))
     )
+  formula2 <- formula1 %>% 
+    update.formula(~ . + I(age >= 35))
   formula3 <- formula2 %>% 
-    update.formula(~ . + I(age > 35) + I(bmi > 30))
+    update.formula(~ . + I(bmi > 30))
 } else {
   formula1 <- base %>% 
-    update.formula(~ . + lspline(amh - 1, 0) + lspline(sperm - 15, 0))
+    update.formula(~ . + lspline(amh - 1, 0) + lspline(sperm - 15, 0) + diagnosis)
   formula2 <- formula1 %>% 
     update.formula(~ . + diagnosis)
   formula3 <- formula2 %>% 
